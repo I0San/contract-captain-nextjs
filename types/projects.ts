@@ -17,3 +17,15 @@ export interface IProjectContract {
   projectId: string
   contract: IContract
 }
+
+export interface IEvent {
+  contractId: string
+  address: string
+  event: any
+}
+
+export interface ITransaction {
+  contractId: string
+  address: string
+  tx: any
+}

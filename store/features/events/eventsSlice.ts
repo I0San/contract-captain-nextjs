@@ -1,15 +1,10 @@
+import { IEvent } from "@/types/projects"
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-
-export interface IActionAddEvent {
-	contractId: string
-	address: string
-	event: any
-}
 
 export interface EventsSliceState {
 	contractId: string
 	address: string
-	events: any[]
+	events: IEvent[]
 }
 
 const initialState: EventsSliceState[] = [
@@ -20,7 +15,7 @@ export const eventsSlice = createSlice({
 	name: "events",
 	initialState,
 	reducers: {
-		addEvent: (state, action: PayloadAction<IActionAddEvent>) => {
+		addEvent: (state, action: PayloadAction<IEvent>) => {
 			const { contractId, address, event } = action.payload
 			const contractIndex = state.findIndex(c => c.contractId === contractId)
 			if (contractIndex === -1) {
