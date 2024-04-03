@@ -35,15 +35,7 @@ export default function Setter({ address, setter }: Props) {
 	// 			setMustSwitchNetwork(true)
 	// 		} else {
 	// 			// console.log(setter.name + '::onError', error)
-	// 			toast(error?.reason.replace('execution reverted: ', '') || error?.reason,
-	// 				{
-	// 					icon: '❌',
-	// 					style: {
-	// 						borderRadius: '10px',
-	// 						background: '#333',
-	// 						color: '#fff',
-	// 					}
-	// 				})
+	// 			toast(error?.reason.replace('execution reverted: ', '') || error?.reason, toastError)
 	// 		}
 	// 	}
 	// })
@@ -54,27 +46,11 @@ export default function Setter({ address, setter }: Props) {
 	// 	...config,
 	// 	onSuccess(data: any) {
 	// 		console.log(setter.name + '::onSuccess', data)
-	// 		toast(setter.name + ' success!',
-	// 			{
-	// 				icon: '✔️',
-	// 				style: {
-	// 					borderRadius: '10px',
-	// 					background: '#333',
-	// 					color: '#fff',
-	// 				}
-	// 			})
+	// 		toast(setter.name + ' success!', toastSuccess)
 	// 	},
 	// 	onError(error: any) {
 	// 		console.log(setter.name + '::onError', error)
-	// 		toast(error?.message,
-	// 			{
-	// 				icon: '❌',
-	// 				style: {
-	// 					borderRadius: '10px',
-	// 					background: '#333',
-	// 					color: '#fff',
-	// 				}
-	// 			})
+	// 		toast(error?.message, toastError)
 	// 	}
 	// })
 

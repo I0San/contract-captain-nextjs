@@ -6,6 +6,7 @@ import { updateContractName, updateProjectName, updateProjectNetwork } from '@/s
 import Modal from '@/components/@core/modal'
 import { useAppDispatch } from '@/store/store'
 import { IContract, IProject } from '@/types/projects'
+import { toastError, toastSuccess } from '@/constants/toast-config'
 
 interface Props {
     project: IProject
@@ -44,26 +45,10 @@ export default function ModalProjectSettings({ project, contract, open, onClose 
                 contractId: contract?.id,
                 name: contractName
             }))
-            toast('Settings updated successfully!',
-            {
-                icon: '✔️',
-                style: {
-                    borderRadius: '10px',
-                    background: '#333',
-                    color: '#fff',
-                }
-            })
+            toast('Settings updated successfully!', toastSuccess)
             onClose()
         } catch (error) {
-            toast('Sorry, something went wrong.',
-            {
-                icon: '❌',
-                style: {
-                    borderRadius: '10px',
-                    background: '#333',
-                    color: '#fff',
-                }
-            })
+            toast('Sorry, something went wrong.', toastError)
         }
     }
 

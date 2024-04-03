@@ -1,14 +1,15 @@
 'use client'
+import { ReactNode } from "react"
 import { WagmiProvider, createConfig, http } from "wagmi"
-import { mainnet } from "wagmi/chains"
+import { bscTestnet, mainnet } from "wagmi/chains"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ConnectKitProvider, getDefaultConfig } from "connectkit"
-import { ReactNode } from "react"
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 const config = createConfig(
   getDefaultConfig({
     // Your dApps chains
-    chains: [mainnet],
+    chains: [mainnet, bscTestnet],
     transports: {
       // RPC URL for each chain
       [mainnet.id]: http(
@@ -40,6 +41,7 @@ export const Web3Provider = ({ children }: Props) => {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <ConnectKitProvider>{children}</ConnectKitProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </WagmiProvider>
   )

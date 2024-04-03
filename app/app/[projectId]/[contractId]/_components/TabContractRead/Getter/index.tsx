@@ -1,10 +1,11 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useModal } from 'connectkit'
-// import { toast } from 'react-hot-toast'
+import { toast } from 'react-hot-toast'
 import { Disclosure } from '@headlessui/react'
 import { ChevronUpIcon } from '@heroicons/react/24/outline'
 import { getFormatedValue } from '@/utils/common'
-import { useAccount, useContractRead, useSwitchChain } from 'wagmi'
+import { useAccount, useReadContract, useSwitchChain } from 'wagmi'
+import { toastError, toastSuccess } from '@/constants/toast-config'
 
 interface Props {
 	address: string
@@ -30,50 +31,45 @@ export default function Getter({ address, getter }: Props) {
 	}, [chain, getter])
 
 
-	const data: any[] | any = []
-	// TODO - Redo this in Wagmi 2.x
-	// const { data } = useContractRead({
-	// 	...view,
-	// 	chainId: getter?.chain ? parseInt(getter.chain) : 1,
-	// 	onSuccess(data: any) {
-	// 		console.log(getter.name + '::onSuccess', data)
-	// 	},
-	// 	onError(error: any) {
-	// 		console.log(getter.name + '::onError', error)
-	// 		if (error?.code !== 'CALL_EXCEPTION') {
-	// 			toast(error?.message,
-	// 				{
-	// 					icon: '❌',
-	// 					style: {
-	// 						borderRadius: '10px',
-	// 						background: '#333',
-	// 						color: '#fff',
-	// 					}
-	// 				})
-	// 		} else if (!error.reason) {
-	// 			toast('Call exception! Wrong network?',
-	// 				{
-	// 					id: 'call_exception',
-	// 					icon: '❌',
-	// 					style: {
-	// 						borderRadius: '10px',
-	// 						background: '#333',
-	// 						color: '#fff',
-	// 					}
-	// 				})
-	// 		}
-	// 	}
-	// })
+		// TODO - Redo this in Wagmi 2.x
+	const { data, isError, isSuccess } = useReadContract({
+		...view,
+		// chainId: getter?.chain ? parseInt(getter.chain) : 1,
+		// onSuccess(data: any) {
+		// 	console.log(getter.name + '::onSuccess', data)
+		// },
+		// onError(error: any) {
+		// 	console.log(getter.name + '::onError', error)
+		// 	if (error?.code !== 'CALL_EXCEPTION') {
+		// 		toast(error?.message, toastError)
+		// 	} else if (!error.reason) {
+		// 		toast('Call exception! Wrong network?', { id: 'call_exception', ...toastSuccess})
+		// 	}
+		// }
+	})
+
+	useEffect(() => {
+		console.log(data)
+	}, [data])
+
+	useEffect(() => {
+		console.log(isError)
+	}, [isError])
+
+	useEffect(() => {
+		console.log(isSuccess)
+	}, [isSuccess])
+	
 
 	useEffect(() => {
 		if (!address || !getter) return
 		if (getter?.inputs?.length === 0) {
 			setView({
-				address: address,
+				address: '0x' + address, // TODO - check this
 				abi: [getter],
 				functionName: getter.name,
-				enabled: true,
-				watch: true,
+				// enabled: true,
+				// watch: true,
 				// chainId: getter.chain
 			})
 		} else {
@@ -101,7 +97,7 @@ export default function Getter({ address, getter }: Props) {
 			switchChain({ chainId: parseInt(getter.chain)})
 		} else {
 			setView({
-				address: address,
+				address: '0x' + address,
 				abi: [getter],
 				functionName: getter.name,
 				args: args,
@@ -141,7 +137,7 @@ export default function Getter({ address, getter }: Props) {
 						</>
 						:
 						<>
-							{getFormatedValue(data?.toString(), getter?.outputs[0]?.type)}
+							{data && getFormatedValue(data?.toString(), getter?.outputs[0]?.type)}
 						</>
 					}
 				</div>

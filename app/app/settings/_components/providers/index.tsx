@@ -4,6 +4,7 @@ import { toast } from 'react-hot-toast'
 import CardBasic from '@/components/@core/cards/cardBasic'
 import StackedListBasic from '@/components/@core/lists/stackedListBasic'
 import StackedListBasicItem from '@/components/@core/lists/stackedListBasicItem'
+import { toastError, toastSuccess } from '@/constants/toast-config'
 
 export default function SettingsProviders() {
 	const [alchemyKey, setAlchemyKey] = useState(localStorage.getItem('alchemyKey') || '')
@@ -18,26 +19,10 @@ export default function SettingsProviders() {
 		try {
 			localStorage.setItem('alchemyKey', alchemyKey)
 			localStorage.setItem('infuraKey', infuraKey)
-			toast('Providers updated successfully!',
-				{
-					icon: '✔️',
-					style: {
-						borderRadius: '10px',
-						background: '#333',
-						color: '#fff',
-					}
-				})
+			toast('Providers updated successfully!', toastSuccess)
 			window.location.href = '/app/settings'
 		} catch (error) {
-			toast('Sorry, something went wrong.',
-				{
-					icon: '❌',
-					style: {
-						borderRadius: '10px',
-						background: '#333',
-						color: '#fff',
-					}
-				})
+			toast('Sorry, something went wrong.', toastError)
 		}
 	}
 
