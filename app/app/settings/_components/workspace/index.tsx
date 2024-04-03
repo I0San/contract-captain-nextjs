@@ -1,5 +1,5 @@
 'use client'
-import styles from '../../settings.module.css'
+import styles from '../settings.module.css'
 import demoData from '@/constants/json/demo-data.json'
 import CardBasic from '@/components/@core/cards/cardBasic'
 import StackedListBasic from '@/components/@core/lists/stackedListBasic'

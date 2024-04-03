@@ -1,15 +1,4 @@
 'use client'
-
-// export default function PageContract({ params }: { params: { projectId: string, contractId: string } }) {
-//   return (
-//     <>
-//       <h1>Contract</h1>
-//       <p>Project ID: {params.projectId}</p>
-//       <p>Contract ID: {params.contractId}</p>
-//     </>
-//   )
-// }
-
 import styles from './page.module.css'
 import { useEffect, useState } from "react"
 import { Tab } from '@headlessui/react'
@@ -18,16 +7,16 @@ import { useAccount } from 'wagmi'
 import { isAddress } from 'viem'
 import { useMonaco } from "@monaco-editor/react"
 import { useAppSelector } from '@/store/store'
-
-import { TabContractABI } from "../../components/ContractTabs/TabContractABI"
-import { TabContractCode } from "../../components/ContractTabs/TabContractCode"
-import TabContractRead from "../../components/ContractTabs/TabContractRead"
-import TabContractWrite from "../../components/ContractTabs/TabContractWrite"
-import TabContractEvents from "../../components/ContractTabs/TabContractEvents"
-import ModalProjectSettings from '../../components/Project/modalProjectSettings'
-import TabContractTransactions from "../../components/ContractTabs/TabContractTransactions"
+import { IContract, IProject } from '@/types/projects'
+import TabContractABI from "./_components/TabContractABI"
+import TabContractCode from "./_components/TabContractCode"
+import TabContractRead from "./_components/TabContractRead"
+import TabContractWrite from "./_components/TabContractWrite"
+import TabContractEvents from "./_components/TabContractEvents"
+import ModalProjectSettings from '../_components/modalProjectSettings'
+import TabContractTransactions from "./_components/TabContractTransactions"
+import TabContractReactHooks from './_components/TabContractReactHooks'
 import { ArrowTopRightOnSquareIcon, ClipboardIcon, Cog8ToothIcon } from "@heroicons/react/24/outline"
-import TabContractReactHooks from '../../components/ContractTabs/TabContractReactHooks'
 
 
 const editorOptions = {
@@ -40,12 +29,12 @@ const editorOptions = {
 }
 
 export default function PageContract({ params }: { params: { projectId: string, contractId: string } }) {
-    const { chain } = useAccount()
-    const [project, setProject] = useState({})
-    const [contract, setContract] = useState({})
-    const [isOpen, setOpen] = useState(false)
-    const projects = useAppSelector((state) => state.projects)
     const monaco = useMonaco()
+    const projects = useAppSelector((state) => state.projects)
+    const { chain } = useAccount()
+    const [project, setProject] = useState<IProject>()
+    const [contract, setContract] = useState<IContract>()
+    const [isOpen, setOpen] = useState(false)
 
     useEffect(() => {
         if (params?.projectId && params?.contractId && projects) {
@@ -70,11 +59,11 @@ export default function PageContract({ params }: { params: { projectId: string, 
 
     const handleOpenInExplorer = () => {
         const explorerUrl = chain?.blockExplorers?.default?.url
-        window.open(`${explorerUrl}/address/${contract.address}`, '_blank')
+        window.open(`${explorerUrl}/address/${contract?.address}`, '_blank')
     }
 
     const handleCopyToClipboard = () => {
-        navigator.clipboard.writeText(contract.address)
+        navigator.clipboard.writeText(contract?.address ?? '')
         toast.success('Copied to clipboard')
     }
 
@@ -114,30 +103,30 @@ export default function PageContract({ params }: { params: { projectId: string, 
                 </Tab.List>
                 <Tab.Panels className="pt-4">
                     <Tab.Panel>
-                        <TabContractRead chain={project?.chain} contract={contract} />
+                        {project && contract && <TabContractRead chain={project?.chain} contract={contract} />}
                     </Tab.Panel>
                     <Tab.Panel>
-                        <TabContractWrite chain={project?.chain} contract={contract} />
+                        {project && contract && <TabContractWrite chain={project?.chain} contract={contract} />}
                     </Tab.Panel>
                     <Tab.Panel>
-                        <TabContractTransactions contract={contract} />
+                        {project && contract && <TabContractTransactions contract={contract} />}
                     </Tab.Panel>
                     <Tab.Panel>
-                        <TabContractEvents contract={contract} />
+                        {project && contract && <TabContractEvents contract={contract} />}
                     </Tab.Panel>
                     <Tab.Panel>
-                        <TabContractABI contract={contract} editorOptions={editorOptions} />
+                        {project && contract && <TabContractABI contract={contract} editorOptions={editorOptions} />}
                     </Tab.Panel>
                     <Tab.Panel>
-                        <TabContractCode contract={contract} editorOptions={editorOptions} />
+                        {project && contract && <TabContractCode contract={contract} editorOptions={editorOptions} />}
                     </Tab.Panel>
                     <Tab.Panel>
-                        <TabContractReactHooks contract={contract} editorOptions={editorOptions} />
+                        {project && contract && <TabContractReactHooks contract={contract} editorOptions={editorOptions} />}
                     </Tab.Panel>
                 </Tab.Panels>
             </Tab.Group>
 
-            <ModalProjectSettings project={project} contract={contract} open={isOpen} onClose={() => setOpen(false)} />
+            {project && contract && <ModalProjectSettings project={project} contract={contract} open={isOpen} onClose={() => setOpen(false)} />}
         </>
     )
 }

@@ -70,7 +70,7 @@ export default function MenuItem({ item }: Props) {
 						</Disclosure.Button>
 
 						<Disclosure.Panel className="space-y-1">
-							{item.children.map((subItem) => (
+							{item?.children?.map((subItem) => (
 								<MenuSubItem key={subItem.id} item={item} subItem={subItem} />
 							))}
 						</Disclosure.Panel>

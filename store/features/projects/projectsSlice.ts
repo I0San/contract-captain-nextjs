@@ -1,14 +1,7 @@
 import { PayloadAction, createSlice, nanoid } from "@reduxjs/toolkit"
-import { IAddContractData } from "./types"
+import { IProject, IProjectContract } from "@/types/projects"
 
-export interface ProjectsSliceState {
-	id: string
-	name: string
-	chain: number
-	contracts: any[]
-}
-
-const initialState: ProjectsSliceState[] = [
+const initialState: IProject[] = [
 	{ id: 'IoSanX696IQBDnOmIs', name: 'Default', chain: 1, contracts: [] }
 ]
 
@@ -39,7 +32,7 @@ export const projectsSlice = createSlice({
 			const { id } = action.payload
 			return state.filter(p => p.id !== id)
 		},
-		addContract: (state, action: PayloadAction<IAddContractData>) => {
+		addContract: (state, action: PayloadAction<IProjectContract>) => {
 			const { projectId, contract } = action.payload
 			const projectIndex = state.findIndex(p => p.id === projectId)
 			state[projectIndex].contracts.push(contract)

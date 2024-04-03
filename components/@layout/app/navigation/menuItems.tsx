@@ -4,7 +4,7 @@ import { PlusIcon } from '@heroicons/react/24/outline'
 import { classNames } from '@/utils/common'
 import { IMenuItem, IMenuSubItem } from '@/types/navigation'
 import MenuItem from './menuItem'
-import ModalAddContract from '@/app/app/_components/ModalAddContract/modalAddContract'
+import ModalAddContract from '@/components/@layout/app/ModalAddContract/modalAddContract'
 
 interface Props {
 	navigationPrimary: IMenuItem[]

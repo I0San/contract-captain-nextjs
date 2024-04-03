@@ -1,17 +1,19 @@
-// export interface IProject {
-//   id: string
-// 	name: string
-//   icon: any
-// 	children: IContract[]
-// 	current: boolean
-// }
+export interface IProject {
+  id: string
+  name: string
+  chain: number
+  contracts: IContract[]
+}
 
-// export interface IContract {
-//   id: string
-// 	name: string
-// 	href: string
-//   address: string
-// 	current: any
-// }
+export interface IContract {
+  id: string
+  address: string
+  name: string
+  abi: string
+  code: string
+}
 
-// export interface IProjectsList extends Array<IProject>{}
+export interface IProjectContract {
+  projectId: string
+  contract: IContract
+}
