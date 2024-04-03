@@ -31,12 +31,12 @@ export default function ModalAddContract({ open, onClose }: Props) {
 	const dispatch = useAppDispatch()
 	const projects = useAppSelector((state) => state.projects)
 	const [addCode, setAddCode] = useState(false)
-	const [selectedProject, setProject] = useState(projects[0]) // TODO - Typed
+	const [selectedProject, setProject] = useState(projects[0])
 	const [addNewProject, setAddNewProject] = useState(false)
 	const { register, handleSubmit, watch, reset, formState: { errors } } = useForm()
 
 	const onProjectChange = (e: any) => {
-		e === 'add' ? setAddNewProject(true) : setProject(e) // TODO - Type
+		e === 'add' ? setAddNewProject(true) : setProject(e)
 	}
 
 	const isUnique = () => {

@@ -3,7 +3,7 @@ import { IContract } from '@/types/projects'
 import Getter from './Getter'
 
 interface Props {
-	chain: any // TODO - debug and check this
+	chain: number
 	contract: IContract
 }
 
