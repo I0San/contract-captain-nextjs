@@ -1,9 +1,12 @@
 import { IContract } from '@/types/projects'
-// import { GridEvents } from '../../DataTable/gridEvents'
+import { GridEvents } from './dataTable'
 
-export default function TabContractEvents({ contract }: { contract: IContract}) {
+interface Props {
+	contract: IContract
+}
+
+export default function TabContractEvents({ contract }: Props) {
 	return (
-		<></>
-		// <GridEvents contract={contract} />
+		<GridEvents contract={contract} />
 	)
 }

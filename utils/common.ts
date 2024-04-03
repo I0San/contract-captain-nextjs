@@ -1,6 +1,6 @@
 import { toast } from 'react-hot-toast'
 
-export const shortenAddress = (address: string, length=4, start=0): string => {
+export const shortenAddress = (address: string, length = 4, start = 0): string => {
     let res = ''
     if (address) {
         const first = address?.substring(start, start + length)
@@ -12,9 +12,9 @@ export const shortenAddress = (address: string, length=4, start=0): string => {
 
 export const remove0x = (str: string): string => {
     if (str.slice(0, 2) === "0x") {
-        return str.slice(2);
+        return str.slice(2)
     }
-    return str;
+    return str
 }
 
 export const getFormatedValue = (val: string, type: string): string => {
@@ -44,4 +44,4 @@ export const isCode = (input: any): boolean => {
     return true
 }
 
-export function classNames(...classes: any) { return classes.filter(Boolean).join(' ')}
+export function classNames(...classes: any) { return classes.filter(Boolean).join(' ') }

@@ -1,6 +1,6 @@
 import React from 'react'
-// import { GridTransactions } from '../../DataTable/gridTransactions'
 import { IContract } from '@/types/projects'
+import GridTransactions from './dataTable'
 
 interface Props {
 	contract: IContract
@@ -8,7 +8,6 @@ interface Props {
 
 export default function TabContractTransactions({ contract }: Props) {
 	return (
-		<></>
-		// <GridTransactions contract={contract} /> // TODO - 
+		<GridTransactions contract={contract} />
 	)
 }
