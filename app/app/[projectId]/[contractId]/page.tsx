@@ -59,11 +59,11 @@ export default function PageContract({ params }: { params: { projectId: string, 
 
     const handleOpenInExplorer = () => {
         const explorerUrl = chain?.blockExplorers?.default?.url
-        window.open(`${explorerUrl}/address/${contract?.address}`, '_blank')
+        window.open(`${explorerUrl}/address/0x${contract?.address}`, '_blank')
     }
 
     const handleCopyToClipboard = () => {
-        navigator.clipboard.writeText(contract?.address ?? '')
+        navigator.clipboard.writeText(`0x${contract?.address}` ?? '')
         toast.success('Copied to clipboard')
     }
 
@@ -71,7 +71,7 @@ export default function PageContract({ params }: { params: { projectId: string, 
         <>
             <div className="flex justify-between">
                 <div>
-                    {(contract?.name && !isAddress(contract?.name))
+                    {(contract?.name && !isAddress(`0x${contract?.name}`))
                         ?
                         <>
                             <h1 className="text-lg md:text-2xl font-semibold text-gray-900">{contract?.name}</h1>
@@ -81,7 +81,7 @@ export default function PageContract({ params }: { params: { projectId: string, 
                         <h1 className="text-lg md:text-2xl font-semibold text-gray-900">{project?.name}</h1>
                     }
                     <div className="flex items-center">
-                        <h3 className="text-xs md:text-md font-semibold text-gray-500">{contract?.address}</h3>
+                        <h3 className="text-xs md:text-md font-semibold text-gray-500">{`0x${contract?.address}`}</h3>
                         <ClipboardIcon className="w-4 h-6 ml-2 cursor-pointer hover:text-indigo-600" onClick={handleCopyToClipboard} />
                         <ArrowTopRightOnSquareIcon className="w-4 h-6 ml-2 cursor-pointer hover:text-indigo-600" onClick={handleOpenInExplorer} />
                     </div>

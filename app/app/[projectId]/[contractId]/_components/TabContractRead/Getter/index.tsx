@@ -30,11 +30,9 @@ export default function Getter({ address, getter }: Props) {
 		}
 	}, [chain, getter])
 
-
-		// TODO - Redo this in Wagmi 2.x
 	const { data, isError, isSuccess } = useReadContract({
 		...view,
-		// chainId: getter?.chain ? parseInt(getter.chain) : 1,
+		chainId: getter?.chain ? parseInt(getter.chain) : 1,
 		// onSuccess(data: any) {
 		// 	console.log(getter.name + '::onSuccess', data)
 		// },
@@ -49,19 +47,6 @@ export default function Getter({ address, getter }: Props) {
 	})
 
 	useEffect(() => {
-		console.log(data)
-	}, [data])
-
-	useEffect(() => {
-		console.log(isError)
-	}, [isError])
-
-	useEffect(() => {
-		console.log(isSuccess)
-	}, [isSuccess])
-	
-
-	useEffect(() => {
 		if (!address || !getter) return
 		if (getter?.inputs?.length === 0) {
 			setView({
@@ -70,7 +55,7 @@ export default function Getter({ address, getter }: Props) {
 				functionName: getter.name,
 				// enabled: true,
 				// watch: true,
-				// chainId: getter.chain
+				chainId: getter.chain
 			})
 		} else {
 			let _inputs: any[] = []

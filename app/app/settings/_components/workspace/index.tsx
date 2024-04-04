@@ -60,9 +60,9 @@ export default function SettingsWorkspace() {
 						Load
 					</button>
 				</StackedListBasicItem>
-				<StackedListBasicItem title={'Sync workspace using Gist'}>
+				{/* <StackedListBasicItem title={'Sync workspace using Gist'}>
 					<></>
-				</StackedListBasicItem>
+				</StackedListBasicItem> */}
 			</StackedListBasic>
 		</CardBasic>
 	)
