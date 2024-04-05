@@ -1,38 +1,38 @@
 'use client'
 import { ReactNode } from "react"
 import { WagmiProvider, createConfig, http } from "wagmi"
-import { bsc, bscTestnet, goerli, hardhat, localhost, mainnet, polygon, polygonMumbai } from "wagmi/chains"
+import { bsc, bscTestnet, goerli, localhost, mainnet, polygon, polygonMumbai } from "wagmi/chains"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ConnectKitProvider, getDefaultConfig } from "connectkit"
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 const config = createConfig(
   getDefaultConfig({
-    // Your dApps chains
-    chains: [mainnet, goerli, polygon, polygonMumbai, bsc, bscTestnet, hardhat, localhost],
+    chains: [mainnet, goerli, polygon, polygonMumbai, bsc, bscTestnet, localhost],
     transports: {
       // RPC URL for each chain
       [mainnet.id]: http(
         `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`,
       ),
-      [goerli.id]: http(goerli.rpcUrls.default.http[0]),
+      [goerli.id]: http(
+        // goerli.rpcUrls.default.http[0],
+        `https://goerli.blockpi.network/v1/rpc/public`
+      ),
       [polygon.id]: http(polygon.rpcUrls.default.http[0]),
       [polygonMumbai.id]: http(polygonMumbai.rpcUrls.default.http[0]),
       [bsc.id]: http(bsc.rpcUrls.default.http[0]),
       [bscTestnet.id]: http(bscTestnet.rpcUrls.default.http[0]),
-      [hardhat.id]: http(hardhat.rpcUrls.default.http[0]),
       [localhost.id]: http(localhost.rpcUrls.default.http[0])
     },
-
-    // Required API Keys
+    ssr: true,
+    cacheTime: 3_000,
+    
+    // Required
     walletConnectProjectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID ?? '',
-
-    // Required App Info
     appName: "Contract Captain",
-
-    // Optional App Info
+    // Optional
     appDescription: "Smart contract administration tool for developers and moderators",
-    appUrl: "https://family.co", // your app's url
+    appUrl: "https://contract-captain.com/",
     appIcon: "https://family.co/logo.png", // your app's icon, no bigger than 1024x1024px (max. 1MB)
   }),
 )

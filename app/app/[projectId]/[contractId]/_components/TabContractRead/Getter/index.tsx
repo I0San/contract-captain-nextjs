@@ -6,6 +6,7 @@ import { ChevronUpIcon } from '@heroicons/react/24/outline'
 import { getFormatedValue } from '@/utils/common'
 import { useAccount, useReadContract, useSwitchChain } from 'wagmi'
 import { toastError, toastSuccess } from '@/constants/toast-config'
+import { Address } from 'viem'
 
 interface Props {
 	address: string
@@ -30,27 +31,15 @@ export default function Getter({ address, getter }: Props) {
 		}
 	}, [chain, getter])
 
-	const { data, isError, isSuccess } = useReadContract({
+	const { data } = useReadContract({
 		...view,
-		// chainId: getter?.chain ? parseInt(getter.chain) : 1,
-		// onSuccess(data: any) {
-		// 	console.log(getter.name + '::onSuccess', data)
-		// },
-		// onError(error: any) {
-		// 	console.log(getter.name + '::onError', error)
-		// 	if (error?.code !== 'CALL_EXCEPTION') {
-		// 		toast(error?.message, toastError)
-		// 	} else if (!error.reason) {
-		// 		toast('Call exception! Wrong network?', { id: 'call_exception', ...toastSuccess})
-		// 	}
-		// }
 	})
 
 	useEffect(() => {
 		if (!address || !getter) return
 		if (getter?.inputs?.length === 0) {
 			setView({
-				address: '0x' + address, // TODO - check this
+				address: `0x${address}` as Address,
 				abi: [getter],
 				functionName: getter.name,
 				// enabled: true,
@@ -82,7 +71,7 @@ export default function Getter({ address, getter }: Props) {
 			switchChain({ chainId: parseInt(getter.chain)})
 		} else {
 			setView({
-				address: '0x' + address,
+				address: `0x${address}` as Address,
 				abi: [getter],
 				functionName: getter.name,
 				args: args,

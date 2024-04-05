@@ -27,7 +27,7 @@ export default function TabContractRead({ chain, contract }: Props) {
 					}
 				})
 				setGetters(getters)
-				console.log('getters', getters)
+				// console.log('getters', getters)
 			} catch (error) {
 				console.log(error)
 			}

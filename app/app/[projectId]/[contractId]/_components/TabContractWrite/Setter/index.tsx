@@ -1,9 +1,11 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useModal } from 'connectkit'
-// import { toast } from 'react-hot-toast'
+import { toast } from 'react-hot-toast'
 import { Disclosure } from '@headlessui/react'
 import { ChevronUpIcon } from '@heroicons/react/24/outline'
-import { useSwitchChain, useAccount } from 'wagmi'
+import { useSwitchChain, useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
+import { Address } from 'viem'
+import { toastError, toastSuccess } from '@/constants/toast-config'
 
 interface Props {
 	address: string
@@ -14,57 +16,26 @@ export default function Setter({ address, setter }: Props) {
 	const modal = useModal()
 	const { isConnected, chain } = useAccount()
 	const { switchChain } = useSwitchChain()
-	const [view, setView] = useState({})
+	const { data, writeContract, status, error } = useWriteContract()
 	const [inputs, setInputs] = useState<any[]>([])
 	const [args, setArgs] = useState<any[]>([])
 	const [mustSwitchNetwork, setMustSwitchNetwork] = useState(false)
+	const [hash, setHash] = useState<`0x${string}` | undefined>()
+	const { data: txReceipt } = useWaitForTransactionReceipt({ hash })
 
 	useEffect(() => {
 		if (!chain || !setter) { return }
 		if (chain?.id === parseInt(setter?.chain)) {
 			setMustSwitchNetwork(false)
+		} else {
+			setMustSwitchNetwork(true)
 		}
 	}, [chain, setter])
-
-	// TODO - Rewrite this with Wagmi 2.x
-	// const { config } = usePrepareContractWrite({
-	// 	...view,
-	// 	chainId: setter?.chain ? parseInt(setter.chain) : 1,
-	// 	onError(error: any) {
-	// 		if (error?.name === 'ChainMismatchError') {
-	// 			setMustSwitchNetwork(true)
-	// 		} else {
-	// 			// console.log(setter.name + '::onError', error)
-	// 			toast(error?.reason.replace('execution reverted: ', '') || error?.reason, toastError)
-	// 		}
-	// 	}
-	// })
-
-	// TODO - Rewrite this with Wagmi 2.x
-	const data: any[] | string = []
-	// const { write, data } = useContractWrite({
-	// 	...config,
-	// 	onSuccess(data: any) {
-	// 		console.log(setter.name + '::onSuccess', data)
-	// 		toast(setter.name + ' success!', toastSuccess)
-	// 	},
-	// 	onError(error: any) {
-	// 		console.log(setter.name + '::onError', error)
-	// 		toast(error?.message, toastError)
-	// 	}
-	// })
 
 	useEffect(() => {
 		if (!address || !setter) return
 		if (setter?.inputs?.length === 0) {
-			setView({
-				address: address,
-				abi: [setter],
-				functionName: setter.name,
-				args: [],
-				enabled: true,
-				// chainId: setter.chain
-			})
+			//
 		} else {
 			let _inputs: any[] = []
 			let _args: any[] = []
@@ -77,12 +48,40 @@ export default function Setter({ address, setter }: Props) {
 		}
 	}, [address, setter])
 
+	useEffect(() => {
+		if (status === 'success') {
+			console.log(setter.name + '::onSuccess', data)
+			toast(setter.name + ' success!', toastSuccess)
+			setHash(data)
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [status])
+
+	useEffect(() => {
+		if (!txReceipt) return
+		console.log('Function::' + setter.name + '::onTxReceipt', txReceipt)
+		toast((t) => (
+			<span>Function <b>{`"${setter.name}"`}</b> <a href={`${getTxLink(txReceipt.transactionHash)}`} target="_blank">confirmed.</a></span>
+		), toastSuccess)
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [txReceipt])
+
+	useEffect(() => {
+		if (!error) return
+		console.log(setter.name + '::onError', error)
+		toast(error?.message ? error?.message : 'Oops! Something went wrong. Check console.', toastError)
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [error])
+
+	function getTxLink(txHash: string) {
+		const explorerUrl = chain?.blockExplorers?.default?.url
+		return `${explorerUrl}/tx/${txHash}`
+	}
+
 	const handleInput = (e: ChangeEvent<HTMLInputElement>, x: number, type: string) => {
-		console.log(type)
 		let temp = args
 		if (type === 'tuple[]') {
 			try {
-				// let str = '[ {"id": 1, "amount": 1 }, { "id": 13, "amount": 1 } ]'
 				let arr = JSON.parse(e.target.value)
 				temp[x] = arr
 			} catch (error) { }
@@ -98,17 +97,15 @@ export default function Setter({ address, setter }: Props) {
 		if (!isConnected) {
 			modal.setOpen(true)
 		} else if (mustSwitchNetwork) {
-			switchChain({ chainId: parseInt(setter.chain)})
+			switchChain({ chainId: parseInt(setter.chain) })
 		} else {
-			setView({
-				address: address,
+			writeContract({
+				address: `0x${address}` as Address,
 				abi: [setter],
 				functionName: setter.name,
-				args: args,
-				enabled: true,
+				args: args
 				// chainId: setter.chain
 			})
-			// write?.() // TODO - Rewrite with Wagmi 2.x
 		}
 	}
 

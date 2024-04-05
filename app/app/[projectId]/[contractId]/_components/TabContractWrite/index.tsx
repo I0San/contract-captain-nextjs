@@ -28,7 +28,7 @@ export default function TabContractWrite({ chain, contract }: Props) {
 					}
 				})
 				setSetters(setters)
-				console.log('setters', setters)
+				// console.log('setters', setters)
 			} catch (error) {
 				console.log(error)
 			}
