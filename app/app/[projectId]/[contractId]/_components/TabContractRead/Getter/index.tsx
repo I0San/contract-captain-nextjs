@@ -32,7 +32,7 @@ export default function Getter({ address, getter }: Props) {
 
 	const { data, isError, isSuccess } = useReadContract({
 		...view,
-		chainId: getter?.chain ? parseInt(getter.chain) : 1,
+		// chainId: getter?.chain ? parseInt(getter.chain) : 1,
 		// onSuccess(data: any) {
 		// 	console.log(getter.name + '::onSuccess', data)
 		// },

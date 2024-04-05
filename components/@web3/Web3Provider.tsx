@@ -1,7 +1,7 @@
 'use client'
 import { ReactNode } from "react"
 import { WagmiProvider, createConfig, http } from "wagmi"
-import { bscTestnet, mainnet } from "wagmi/chains"
+import { bsc, bscTestnet, goerli, hardhat, localhost, mainnet, polygon, polygonMumbai } from "wagmi/chains"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ConnectKitProvider, getDefaultConfig } from "connectkit"
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
@@ -9,12 +9,19 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 const config = createConfig(
   getDefaultConfig({
     // Your dApps chains
-    chains: [mainnet, bscTestnet],
+    chains: [mainnet, goerli, polygon, polygonMumbai, bsc, bscTestnet, hardhat, localhost],
     transports: {
       // RPC URL for each chain
       [mainnet.id]: http(
         `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`,
       ),
+      [goerli.id]: http(goerli.rpcUrls.default.http[0]),
+      [polygon.id]: http(polygon.rpcUrls.default.http[0]),
+      [polygonMumbai.id]: http(polygonMumbai.rpcUrls.default.http[0]),
+      [bsc.id]: http(bsc.rpcUrls.default.http[0]),
+      [bscTestnet.id]: http(bscTestnet.rpcUrls.default.http[0]),
+      [hardhat.id]: http(hardhat.rpcUrls.default.http[0]),
+      [localhost.id]: http(localhost.rpcUrls.default.http[0])
     },
 
     // Required API Keys
@@ -30,7 +37,7 @@ const config = createConfig(
   }),
 )
 
-const queryClient = new QueryClient()
+export const queryClient = new QueryClient()
 
 interface Props {
   readonly children: ReactNode

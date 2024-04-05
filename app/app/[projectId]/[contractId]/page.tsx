@@ -15,7 +15,7 @@ import TabContractWrite from "./_components/TabContractWrite"
 import TabContractEvents from "./_components/TabContractEvents"
 import ModalProjectSettings from '../_components/modalProjectSettings'
 import TabContractTransactions from "./_components/TabContractTransactions"
-import TabContractReactHooks from './_components/TabContractReactHooks'
+// import TabContractReactHooks from './_components/TabContractReactHooks'
 import { ArrowTopRightOnSquareIcon, ClipboardIcon, Cog8ToothIcon } from "@heroicons/react/24/outline"
 
 
@@ -99,7 +99,7 @@ export default function PageContract({ params }: { params: { projectId: string, 
                     <Tab className={styles.tab}>Events</Tab>
                     <Tab className={styles.tab}>ABI</Tab>
                     <Tab className={styles.tab}>Code</Tab>
-                    <Tab className={styles.tab}>React</Tab>
+                    {/* <Tab className={styles.tab}>React</Tab> */}
                 </Tab.List>
                 <Tab.Panels className="pt-4">
                     <Tab.Panel>
@@ -120,9 +120,9 @@ export default function PageContract({ params }: { params: { projectId: string, 
                     <Tab.Panel>
                         {project && contract && <TabContractCode contract={contract} editorOptions={editorOptions} />}
                     </Tab.Panel>
-                    <Tab.Panel>
+                    {/* <Tab.Panel>
                         {project && contract && <TabContractReactHooks contract={contract} editorOptions={editorOptions} />}
-                    </Tab.Panel>
+                    </Tab.Panel> */}
                 </Tab.Panels>
             </Tab.Group>
 
