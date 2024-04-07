@@ -16,7 +16,7 @@ function getExplorerLink(val: any) {
 const columns: any[] = [
   {
     name: 'Time',
-    selector: (row: any) => new Date(row.timestamp).toLocaleString("en-EN"),
+    selector: (row: any) => new Date(row.timestamp.toString()).toLocaleString("en-EN"),
     sortable: true
   },
   {
@@ -36,7 +36,7 @@ const columns: any[] = [
   },
   {
     name: 'Block Number',
-    selector: (row: any) => <a href={`${getExplorerLink(row.chainId)}/block/${row.blockNumber}`} target="_blank" rel="noreferrer">{row.blockNumber}</a>,
+    selector: (row: any) => <a href={`${getExplorerLink(row.chainId)}/block/${row.blockNumber.toString()}`} target="_blank" rel="noreferrer">{row.blockNumber}</a>,
     sortable: true,
     style: {
       '&:hover': {

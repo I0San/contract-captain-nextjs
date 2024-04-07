@@ -6,14 +6,18 @@ import { ChevronUpIcon } from '@heroicons/react/24/outline'
 import { useSwitchChain, useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
 import { Address } from 'viem'
 import { toastError, toastSuccess } from '@/constants/toast-config'
+import { useAppDispatch } from '@/store/store'
+import { addTransaction } from '@/store/features/transactions/transactionsSlice'
 
 interface Props {
 	address: string
 	setter: any
+	contractId: string
 }
 
-export default function Setter({ address, setter }: Props) {
+export default function Setter({ contractId, address, setter }: Props) {
 	const modal = useModal()
+	const dispatch = useAppDispatch()
 	const { isConnected, chain } = useAccount()
 	const { switchChain } = useSwitchChain()
 	const { data, writeContract, status, error } = useWriteContract()
@@ -59,6 +63,19 @@ export default function Setter({ address, setter }: Props) {
 
 	useEffect(() => {
 		if (!txReceipt) return
+		dispatch(addTransaction({
+			contractId,
+			address,
+			tx: {
+				blockNumber: txReceipt.blockNumber,
+				timestamp: BigInt(1), // TODO - getBlockTimeStamp
+				txHash: txReceipt.transactionHash,
+				from: txReceipt.from,
+				to: txReceipt.to,
+				gasPrice: txReceipt.effectiveGasPrice,
+				value: BigInt(1) // TODO - value
+			}
+		}))
 		console.log('Function::' + setter.name + '::onTxReceipt', txReceipt)
 		toast((t) => (
 			<span>Function <b>{`"${setter.name}"`}</b> <a href={`${getTxLink(txReceipt.transactionHash)}`} target="_blank">confirmed.</a></span>

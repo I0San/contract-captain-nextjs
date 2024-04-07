@@ -33,7 +33,11 @@ export default function EventsReader() {
 		<>
 			{events.length > 0 &&
 				<>
-					{events?.map((e, i) => { return (<Event key={i} chainId={e.chainId} contract={e.contract} event={e.event} />) })}
+					{events?.map((e, i) => {
+						if (e.chainId && e.contract && e.event) {
+							return (<Event key={i} chainId={e.chainId} contract={e.contract} event={e.event} />)
+						}
+					})}
 				</>
 			}
 		</>

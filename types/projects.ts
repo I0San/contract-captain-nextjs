@@ -1,3 +1,5 @@
+import { Address } from "viem"
+
 export interface IProject {
   id: string
   name: string
@@ -24,8 +26,18 @@ export interface IEvent {
   event: any
 }
 
-export interface ITransaction {
+export interface IContractTransaction {
   contractId: string
   address: string
-  tx: any
+  transactions: ITransaction[]
+}
+
+export interface ITransaction {
+  blockNumber: BigInt
+  timestamp: BigInt
+  txHash: string
+  from: Address
+  to: Address | null
+  gasPrice?: BigInt
+  value?: BigInt
 }

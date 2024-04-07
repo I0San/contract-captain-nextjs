@@ -40,7 +40,11 @@ export default function TabContractWrite({ chain, contract }: Props) {
 			{contract &&
 				<dl className="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
 					{setters.map((s, i) =>
-						<Setter key={contract.id + s.name + i} address={contract.address} setter={s} />
+						<Setter 
+							key={contract.id + s.name + i} 
+							address={contract.address} 
+							contractId={contract.id}
+							setter={s} />
 					)}
 				</dl>
 			}
