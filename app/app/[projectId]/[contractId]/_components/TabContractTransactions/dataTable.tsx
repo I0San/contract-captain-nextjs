@@ -26,7 +26,7 @@ const columns: any[] = [
   },
   {
     name: 'Txn Hash',
-    selector: (row: any) => <a href={`${getExplorerLink(row.chainId)}/tx/${row.hash}`} target="_blank" rel="noreferrer">{shortenAddress(row.hash, 3, 2)}</a>,
+    selector: (row: any) => <a href={`${getExplorerLink(row.chainId)}/tx/${row.txHash}`} target="_blank" rel="noreferrer">{shortenAddress(row.hash, 3, 2)}</a>,
     style: {
       '&:hover': {
         color: '#4f46e5',
