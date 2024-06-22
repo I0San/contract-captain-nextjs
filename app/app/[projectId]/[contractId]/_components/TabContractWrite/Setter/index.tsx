@@ -1,3 +1,4 @@
+"use client"
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useModal } from 'connectkit'
 import { toast } from 'react-hot-toast'
@@ -68,18 +69,20 @@ export default function Setter({ contractId, address, setter }: Props) {
 			address,
 			tx: {
 				blockNumber: txReceipt.blockNumber,
-				timestamp: BigInt(1), // TODO - getBlockTimeStamp
+				timestamp: BigInt(0), // TODO - getBlockTimeStamp
 				txHash: txReceipt.transactionHash,
 				from: txReceipt.from,
 				to: txReceipt.to,
 				gasPrice: txReceipt.effectiveGasPrice,
-				value: BigInt(1) // TODO - value
+				value: BigInt(0) // TODO - value
 			}
 		}))
+
 		console.log('Function::' + setter.name + '::onTxReceipt', txReceipt)
 		toast((t) => (
 			<span>Function <b>{`"${setter.name}"`}</b> <a href={`${getTxLink(txReceipt.transactionHash)}`} target="_blank">confirmed.</a></span>
 		), toastSuccess)
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [txReceipt])
 

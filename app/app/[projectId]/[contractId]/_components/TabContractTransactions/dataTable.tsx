@@ -14,19 +14,15 @@ function getExplorerLink(val: any) {
 }
 
 const columns: any[] = [
+  // {
+  //   name: 'Time',
+  //   selector: (row: any) => new Date(row.timestamp.toString()).toLocaleString("en-EN"),
+  //   sortable: true
+  // },
   {
-    name: 'Time',
-    selector: (row: any) => new Date(row.timestamp.toString()).toLocaleString("en-EN"),
-    sortable: true
-  },
-  {
-    name: 'Network',
-    selector: (row: any) => row.network,
-    sortable: true
-  },
-  {
-    name: 'Txn Hash',
-    selector: (row: any) => <a href={`${getExplorerLink(row.chainId)}/tx/${row.txHash}`} target="_blank" rel="noreferrer">{shortenAddress(row.hash, 3, 2)}</a>,
+    name: 'Block Number',
+    selector: (row: any) => <a href={`${getExplorerLink(row.chainId)}/block/${row.blockNumber.toString()}`} target="_blank" rel="noreferrer">{row.blockNumber.toString()}</a>,
+    sortable: true,
     style: {
       '&:hover': {
         color: '#4f46e5',
@@ -34,10 +30,14 @@ const columns: any[] = [
       }
     }
   },
+  // {
+  //   name: 'Network',
+  //   selector: (row: any) => row.network,
+  //   sortable: true
+  // },
   {
-    name: 'Block Number',
-    selector: (row: any) => <a href={`${getExplorerLink(row.chainId)}/block/${row.blockNumber.toString()}`} target="_blank" rel="noreferrer">{row.blockNumber}</a>,
-    sortable: true,
+    name: 'Txn Hash',
+    selector: (row: any) => <a href={`${getExplorerLink(row.chainId)}/tx/${row.txHash}`} target="_blank" rel="noreferrer">{shortenAddress(row.txHash, 3, 2)}</a>,
     style: {
       '&:hover': {
         color: '#4f46e5',
@@ -69,7 +69,7 @@ const columns: any[] = [
   },
   {
     name: 'Gas Price',
-    selector: (row: any) => formatEther(row.gasPrice)
+    selector: (row: any) => formatEther(row.gasPrice, 'wei')
   },
   {
     name: 'Value',
