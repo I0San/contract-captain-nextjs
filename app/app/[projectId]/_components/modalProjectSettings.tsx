@@ -25,7 +25,6 @@ export default function ModalProjectSettings({ project, contract, open, onClose 
     const [network, setNetwork] = useState(chain?.id)
 
     useEffect(() => {
-        //if (!chain) return
         setProjectName(project?.name || '')
         setContractName(contract?.name || '')
         setNetwork(project.chain || 1)
