@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { toast } from 'react-hot-toast'
@@ -18,17 +19,17 @@ interface Props {
 export default function ModalProjectSettings({ project, contract, open, onClose }: Props) {
     const dispatch = useAppDispatch()
     const { chain } = useAccount()
-    const { chains } = useConfig() 
+    const { chains } = useConfig()
     const [projectName, setProjectName] = useState(project?.name || '')
     const [contractName, setContractName] = useState(contract?.name || '')
     const [network, setNetwork] = useState(chain?.id)
 
     useEffect(() => {
-        if (!chain) return
+        //if (!chain) return
         setProjectName(project?.name || '')
         setContractName(contract?.name || '')
         setNetwork(project.chain || 1)
-    }, [project, contract, chain])
+    }, [project, contract])
 
     const handleSave = () => {
         try {
